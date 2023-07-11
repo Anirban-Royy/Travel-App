@@ -1,0 +1,84 @@
+managed implementation in class zbp_dii_travel unique;
+strict ( 1 );
+
+define behavior for ZDI_TRAVEL alias Travel
+persistent table zdbt1_travel
+lock master
+authorization master ( instance )
+etag master LocalLastChangedAt
+{
+field(readonly) FinalPrice;
+  create;
+  update;
+  delete;
+ association _PARTNER { create; }
+ association _NBUS {create;}
+  mapping for zdbt1_travel
+    {
+      Travelid           = travelid;
+      Partnerid          = partnerid;
+      Busid              = busid;
+      TravelDate         = travel_date;
+      FinalPrice         = final_price;
+      CreatedBy          = created_by;
+      CreatedAt          = created_at;
+      LastChangedBy      = last_changed_by;
+      LastChangedAt      = last_changed_at;
+      LocalLastChangedAt = local_last_changed_at;
+    }
+    validation valBusID on save {update;create;field Busid;}
+    determination updateFinalPrice on modify {field Busid;}
+    determination updateBusDetails on modify {field Busid;}
+ }
+
+define behavior for ZDI_PARTNER alias Partner //alias <alias_name>
+persistent table zdbt1_partners
+lock dependent by _Travel
+authorization dependent by _Travel
+etag master LocalLastChangedAt
+{
+
+  update;
+  delete;
+  field (readonly : update) TravelID, BusID, PartnerID;
+  association _Travel;
+  mapping for zdbt1_partners
+    {
+      PartnerID     = partnerid;
+//    BusID         = busid;
+//    TravelID      = travelid;
+      Name          = name;
+      PhoneNumber   = phone_number;
+      Email         = email;
+      MfcNumber     = mfc_number;
+      DriverLicense = driver_license;
+      State         = state;
+      District      = district;
+      City          = city;
+      Area          = area;
+      Street        = street;
+      Pincode       = pincode;
+      }
+
+ }
+
+ define behavior for zdi_bus alias Bus
+ persistent table zdbt1_bus
+lock dependent by _Travel
+authorization dependent by _Travel
+etag master LocalLastChangedAt
+{
+
+  update;
+  delete;
+  field (readonly : update) BusID, TravelID;
+  association _Travel;
+  mapping for zdbt1_bus
+    {
+      BusID = busid;
+      BusPrice = bus_price;
+      BusSource = bus_source;
+      BusDestination = bus_destination;
+      }
+
+ }

@@ -1,0 +1,6 @@
+@EndUserText.label: 'Travel Service Definition'
+define service ZSD_Travel {
+  expose ZDP_TRAVEL as Travel;
+  expose ZDP_PARTNER as Partner;
+  expose ZDPBUS as Bus;
+}

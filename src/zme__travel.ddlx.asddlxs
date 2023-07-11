@@ -1,0 +1,147 @@
+@Metadata.layer: #CORE
+@UI:{ 
+headerInfo: { typeName: 'Travel',
+              typeNamePlural: 'Travels',
+              title: { type: #STANDARD, value: 'TravelID' }},
+              presentationVariant: [ { sortOrder: [ { by: 'TravelID', direction: #DESC } ] } ]}
+annotate view ZDP_TRAVEL
+    with 
+{
+@UI.facet: [ { id: 'Travel',
+               purpose: #STANDARD,
+               type: #IDENTIFICATION_REFERENCE,
+               label: 'Travel',
+               position: 10 },
+//Section for bus
+    { id: 'BusSection',
+      type: #COLLECTION,
+      label: 'Bus Details',
+      position: 20 },
+//Field Group for bus
+    { id: 'busData',
+      parentId: 'BusSection',
+      type: #FIELDGROUP_REFERENCE,
+      targetQualifier: 'busData' },
+      
+//lineitem for partner              
+  { id: 'Partner', 
+    purpose: #STANDARD,
+   type: #LINEITEM_REFERENCE,
+   label: 'Insert Partner Data',
+    position: 40,
+    targetElement: '_PARTNER'},
+    
+//lineitem for bus    
+    { id: 'Bus',
+      purpose: #STANDARD,
+      type: #LINEITEM_REFERENCE,
+      label: 'Insert Bus Data',
+      position: 50,
+      targetElement: '_Nbus'
+    },
+//section for partner
+    { id: 'partnerSection',
+      type: #COLLECTION,
+      label: 'Partner Details',
+      position: 30 },
+                 
+//field group for partner
+                 
+    { id: 'PartnerData',
+      parentId: 'partnerSection',
+      type: #FIELDGROUP_REFERENCE,
+      targetQualifier: 'PartnerDetails' }]
+                 
+    @UI:{ identification: [{position: 10, label: 'TravelID' }] }
+    @UI:{ lineItem:       [{ position: 10 }],
+          selectionField: [ { position: 10 }]}
+    @EndUserText.label: 'TravelID'
+    @Consumption.valueHelpDefinition: [{ entity: {name: 'ZDI_TRAVEL', element: 'TravelID' }}]
+    TravelID;
+    
+    @UI:{ lineItem:       [{ position: 20 }],
+          identification: [{ position: 20 }],
+          selectionField: [{position: 20 }]}
+    @EndUserText.label: 'PartnerID'
+    @Consumption.valueHelpDefinition: [{ entity: {name: 'ZDI_PARTNER', element: 'PartnerID' }}]
+//@UI.hidden: true
+    PartnerID;
+    @UI:{ lineItem:       [{ position: 30 }],
+          identification: [{ position: 30 }],
+          selectionField: [{position: 30 }]}
+    @EndUserText.label: 'BusID'
+  
+    @Consumption.valueHelpDefinition: [{ entity: {name: 'ZDI_BUS', element: 'BusID' }}]
+    BusID;
+
+    @UI:{ lineItem:       [{ position: 40 }],
+          identification: [{ position: 40 }]}
+    @EndUserText.label: 'TravelDate'
+    TravelDate;
+    @UI:{ lineItem:       [{ position: 50 }],
+          identification: [{ position: 50 }]}
+    @EndUserText.label: 'FinalPrice'
+    FinalPrice;
+    @UI.hidden: true
+    CreatedBy;
+    @UI.hidden: true
+    CreatedAt;
+    @UI.hidden: true
+    LastChangedBy;
+    @UI.hidden: true
+    LastChangedAt;
+    @UI.hidden: true
+    LocalLastChangedAt;
+    
+   
+     @UI.fieldGroup: [{ qualifier: 'busData',label: 'Source', position: 3 }]
+     BusSource;
+     @UI.fieldGroup: [{ qualifier: 'busData',label: 'Destination', position: 4 }]
+     BusDestination; 
+     @UI.fieldGroup: [{ qualifier: 'busData',label: 'BusPrice', position: 2 }]
+     BusPrice;
+//@UI.fieldGroup: [{ qualifier: 'busData',label: 'BusID', position: 1 }]
+//@Consumption.valueHelpDefinition: [{ entity: {name: 'ZDI_BUS', element: 'BusID' }}]
+//BusID;
+         
+//@UI.fieldGroup: [{ qualifier: 'PartnerDetails',label: 'PartnerID', position: 1 }]
+//PartnerID;
+     @UI.fieldGroup: [{ qualifier: 'PartnerDetails',label: 'Name', position: 2 }]
+     Name;
+     @UI.fieldGroup: [{ qualifier: 'PartnerDetails',label: 'Phone Number', position: 3 }]
+     PhoneNumber;
+     @UI.fieldGroup: [{ qualifier: 'PartnerDetails',label: 'Email', position: 4 }]
+     Email;
+     @UI.fieldGroup: [{ qualifier: 'PartnerDetails',label: 'Mfc Number', position: 5 }]
+     MfcNumber;
+     @UI.fieldGroup: [{ qualifier: 'PartnerDetails',label: 'Driver License', position: 6 }]
+     DriverLicense;
+     @UI.fieldGroup: [{ qualifier: 'PartnerDetails',label: 'State', position: 7 }]
+     State;
+     @UI.fieldGroup: [{ qualifier: 'PartnerDetails',label: 'District', position: 8 }]
+     District;
+     @UI.fieldGroup: [{ qualifier: 'PartnerDetails',label: 'City', position: 9 }]
+     City;
+     @UI.fieldGroup: [{ qualifier: 'PartnerDetails',label: 'Area', position: 10 }]
+     Area;
+     @UI.fieldGroup: [{ qualifier: 'PartnerDetails',label: 'Street', position: 11 }]
+     Street;
+     @UI.fieldGroup: [{ qualifier: 'PartnerDetails',label: 'Pincode', position: 12 }]
+     Pincode;
+   
+@UI.identification: [{ position: 100 }]
+_PARTNER;
+
+@UI.identification: [{position: 200}]
+_NBus;
+/*@UI.identification: [
+  {
+    importance: #HIGH,
+    label: 'Copy with new supplier',
+    dataAction: 'PUSHDOWN:STTA_C_MP_ProductCopy_new_supplier',
+    type: #FOR_ACTION,
+    position: 1 
+  }
+]
+*/
+}
